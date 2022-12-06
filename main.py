@@ -1,3 +1,4 @@
+#! /usr/bin/python
 import argparse
 import os
 from rich import print
