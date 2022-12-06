@@ -73,6 +73,7 @@ def main():
 
         if isinstance(c, int):
             lineCount += c
+
     print(f"[bold yellow]Total: {lineCount}")
 
 
