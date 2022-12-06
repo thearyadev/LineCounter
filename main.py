@@ -24,7 +24,6 @@ def get_line_count(path: str) -> int | None:
 
 
 def record_files(*, directory: str, ignore: list[str], extensions: list[str] | None = None) -> list[str]:
-
     if ignore is None:
         ignore = list()
     files_to_scan: list[str] = list()
