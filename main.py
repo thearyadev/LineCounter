@@ -16,10 +16,13 @@ def get_line_count(path: str) -> int | None:
     try:
         with open(path, "r") as file:
             c = len(list(filter(lambda ln: ln != "\n", file.readlines())))
+
             display_single_file(c, os.path.relpath(path, os.curdir))
             return c
-    except UnicodeDecodeError as e:
-        display_single_err(":heavy_exclamation_mark:", os.path.relpath(path, os.curdir))
+
+    except UnicodeDecodeError:
+        display_single_err(":heavy_exclamation_mark:",
+                           os.path.relpath(path, os.curdir))
         return None
 
 
@@ -54,12 +57,15 @@ def record_files(*, directory: str, ignore: list[str], extensions: list[str] | N
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--ignore", action="append", type=str, required=False)
-    parser.add_argument("-e", "--extension", action="append", type=str, required=False)
-    parser.add_argument("-d", "--directory", required=False, default="./")
+    parser.add_argument("-i", "--ignore", action="append", type=str, required=False,
+                        help="Name of directory in target directory which should be ignored.")
+    parser.add_argument("-e", "--extension", action="append", type=str, required=False, help="File extensions to accept")
+    parser.add_argument("-d", "--directory", required=False, default="./", help="Directory to run scan")
 
     args = parser.parse_args()
-    print(args)
+    print(f"Selected Directory: [green]{args.directory}[/green]\n"
+          f"Ignored Directories: [green]{args.ignore}[/green]\n"
+          f"Searching for: [yellow]{args.extension if args.extension else 'All'}[/yellow]")
     lineCount: int = 0
     f = record_files(directory=args.directory, ignore=args.ignore, extensions=args.extension)
     for x in f:
